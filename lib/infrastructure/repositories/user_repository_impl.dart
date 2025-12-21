@@ -3,11 +3,15 @@ import 'package:daily_track/domain/repositories/user_repository.dart';
 import 'package:daily_track/infrastructure/database/database.dart';
 
 class UserRepositoryImpl implements UserRepository {
-  final database = DailyTrackDatabase();
+  final DailyTrackDatabase _dbManager;
+
+  UserRepositoryImpl({ 
+    required DailyTrackDatabase dbManager
+  }) : _dbManager = dbManager;
 
   @override
   Future<void> addUser(User user) async {
-    final db = await database.database;
+    final db = await _dbManager.database;
 
     try {
       // Returns the index of the User
@@ -19,7 +23,7 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<void> deleteUser(String uuid) async {
-    final db = await database.database;
+    final db = await _dbManager.database;
 
     try {
       // Returns the number of rows affected
@@ -35,7 +39,7 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<void> updateUser(User user) async {
-    final db = await database.database;
+    final db = await _dbManager.database;
 
     try {
       // Returns the number of rows affected
@@ -52,7 +56,7 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<User?> login(String email, String password) async {
-    final db = await database.database;
+    final db = await _dbManager.database;
 
     try {
       // Receives User
@@ -73,8 +77,8 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<User?> getUserByEmail(String email) async {
-    final db = await database.database;
+  Future<bool> getUserByEmail(String email) async {
+    final db = await _dbManager.database;
 
     try {
       // Receives User
@@ -85,10 +89,10 @@ class UserRepositoryImpl implements UserRepository {
       );
 
       if(existingUser.isNotEmpty) {
-        return User.fromJson(existingUser.first);
+        return true;
       }
 
-      return null;
+      return false;
     } catch(e) {
       throw Exception("Error in Get User By Email Repository: $e");
     }

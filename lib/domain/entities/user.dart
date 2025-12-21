@@ -13,6 +13,7 @@ class User {
     required this.password,
   });
 
+  // User => Json
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -23,6 +24,7 @@ class User {
     };
   }
 
+  // Json => User
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'],
@@ -31,5 +33,11 @@ class User {
       email: json['email'], 
       password: json['password'],
     );
+  }
+
+  // Debug
+  @override
+  String toString() {
+    return "ID: $id, UUID: $uuid, Name: $name, Email: $email";
   }
 }

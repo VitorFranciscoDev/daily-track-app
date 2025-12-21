@@ -1,48 +1,82 @@
 import 'package:daily_track/domain/entities/user.dart';
 import 'package:daily_track/domain/repositories/user_repository.dart';
 
-class UserUseCase {
-  UserUseCase({ required this.userRepository });
+class AuthUseCase {
+  final UserRepository _repository;
 
-  final UserRepository userRepository;
+  AuthUseCase({
+    required UserRepository repository,
+  }) : _repository = repository;
 
-  Future<void> getUserByEmail(String email) async {
-    try {
-      await userRepository.getUserByEmail(email);
-    } catch(e) {
-      throw Exception("Error in Get User By Email Use Case: $e");
-    } 
+  Future<bool> getUserByEmail(String email) async {
+    if(email.isEmpty) {
+      throw Exception("Invalid Email");
+    }
+
+    return await _repository.getUserByEmail(email);
   }
 
-  Future<void> login(String email, String password) async {
-    try {
-      await userRepository.login(email, password);
-    } catch(e) {
-      throw Exception("Error in Do Login Use Case: $e");
+  Future<User?> login(String email, String password) async {
+    if(email.isEmpty) {
+      throw Exception("Invalid Email");
     }
+
+    if(password.length < 8) {
+      throw Exception("Invalid Password");
+    }
+
+    return await _repository.login(email, password);
   }
 
   Future<void> addUser(User user) async {
-    try {
-      await userRepository.addUser(user);
-    } catch (e) {
-      throw Exception("Error in Add User Use Case: $e");
+    if(user.uuid.isEmpty) {
+      throw Exception("Invalid UUID");
     }
+
+    if(user.name.length < 3) {
+      throw Exception("Invalid Name");
+    }
+
+    if(user.email.isEmpty) {
+      throw Exception("Invalid Email");
+    }
+
+    if(user.password.length < 8) {
+      throw Exception("Invalid Password");
+    }
+
+    await _repository.addUser(user);
   }
 
   Future<void> deleteUser(String uuid) async {
-    try {
-      await userRepository.deleteUser(uuid);
-    } catch(e) {
-      throw Exception("Error in Delete User Use Case: $e");
+    if(uuid.isEmpty) {
+      throw Exception("Invalid UUID");
     }
+
+    await _repository.deleteUser(uuid);
   }
 
   Future<void> updateUser(User user) async {
-    try {
-      await userRepository.updateUser(user);
-    } catch(e) {
-      throw Exception("Error in Update User Use Case: $e");
+    if(user.id! < 0) {
+      throw Exception("Invalid ID");
     }
+    
+    if(user.uuid.isEmpty) {
+      throw Exception("Invalid UUID");
+    }
+
+    if(user.name.length < 3) {
+      throw Exception("Invalid Name");
+    }
+
+    if(user.email.isEmpty) {
+      throw Exception("Invalid Email");
+    }
+
+    if(user.password.length < 8) {
+      throw Exception("Invalid Password");
+    }
+
+    await _repository.updateUser(user);
   }
 }
