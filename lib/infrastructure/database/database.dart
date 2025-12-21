@@ -10,6 +10,7 @@ class DailyTrackDatabase {
   DailyTrackDatabase._internal();
   static Database? db;
 
+  // DB getter
   Future<Database> get database async {
     if(db != null) return db!;
     db = await _initDatabase();
@@ -19,7 +20,7 @@ class DailyTrackDatabase {
   // Init DB
   Future<Database> _initDatabase() async {
     final databaseDirPath = await getDatabasesPath();
-    final databasePath = join(databaseDirPath, 'trip_planner.db');
+    final databasePath = join(databaseDirPath, 'daily_track.db');
 
     return await openDatabase(
       databasePath,

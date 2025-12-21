@@ -1,6 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 
 class TasksTable {
+  // SQL to Create Tasks Table
   static Future<void> createTable(Database db) async {
     await db.execute('''
       CREATE TABLE tasks (

@@ -9,57 +9,12 @@ class UserRepositoryImpl implements UserRepository {
     required DailyTrackDatabase dbManager
   }) : _dbManager = dbManager;
 
-  @override
-  Future<void> addUser(User user) async {
-    final db = await _dbManager.database;
-
-    try {
-      // Returns the index of the User
-      await db.insert('users', user.toJson());
-    } catch (e) {
-      throw Exception("Error in Add User Repository: $e");
-    }
-  } 
-
-  @override
-  Future<void> deleteUser(String uuid) async {
-    final db = await _dbManager.database;
-
-    try {
-      // Returns the number of rows affected
-      await db.delete(
-        'users',
-        where: 'uuid = ?',
-        whereArgs: [uuid],
-      );
-    } catch(e) {
-      throw Exception("Error in Delete User Repository: $e");
-    }
-  }
-
-  @override
-  Future<void> updateUser(User user) async {
-    final db = await _dbManager.database;
-
-    try {
-      // Returns the number of rows affected
-      await db.update(
-        'users',
-        user.toJson(),
-        where: 'uuid = ?',
-        whereArgs: [user.uuid],
-      );
-    } catch (e) {
-      throw Exception("Error in Update User Repository: $e");
-    }
-  }
-
+  // Query on DB [Email && Password]
   @override
   Future<User?> login(String email, String password) async {
-    final db = await _dbManager.database;
-
     try {
-      // Receives User
+      final db = await _dbManager.database;
+      
       final result = await db.query(
         'users',
         where: 'email = ? AND password = ?',
@@ -72,16 +27,16 @@ class UserRepositoryImpl implements UserRepository {
 
       return null;
     } catch(e) {
-      throw Exception("Error in Do Login Repository: $e");
+      throw Exception("Internal Error");
     }
   }
 
+  // Query on DB [Email] for Sign Up Validation
   @override
   Future<bool> getUserByEmail(String email) async {
-    final db = await _dbManager.database;
-
     try {
-      // Receives User
+      final db = await _dbManager.database;
+
       final existingUser = await db.query(
         'users',
         where: 'email = ?',
@@ -94,7 +49,55 @@ class UserRepositoryImpl implements UserRepository {
 
       return false;
     } catch(e) {
-      throw Exception("Error in Get User By Email Repository: $e");
+      throw Exception("Internal Error");
+    }
+  }
+
+  // Add User on DB
+  @override
+  Future<void> addUser(User user) async {
+    try {
+      final db = await _dbManager.database;
+
+      await db.insert(
+        'users', 
+        user.toJson(),
+      );
+    } catch(e) {
+      throw Exception("Internal Error");
+    }
+  } 
+
+  // Delete User from DB
+  @override
+  Future<void> deleteUser(String uuid) async {
+    try {
+      final db = await _dbManager.database;
+
+      await db.delete(
+        'users',
+        where: 'uuid = ?',
+        whereArgs: [uuid],
+      );
+    } catch(e) {
+      throw Exception("Internal Error");
+    }
+  }
+
+  // Update User on DB
+  @override
+  Future<void> updateUser(User user) async {
+    try {
+      final db = await _dbManager.database;
+
+      await db.update(
+        'users',
+        user.toJson(),
+        where: 'uuid = ?',
+        whereArgs: [user.uuid],
+      );
+    } catch (e) {
+      throw Exception("Internal Error");
     }
   }
 
