@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Button extends StatelessWidget {
-  const Button({ super.key, required this.message, required this.function });
+class ButtonComponent extends StatelessWidget {
+  const ButtonComponent({ super.key, required this.message, required this.function });
   final String message;
   final VoidCallback function;
 
@@ -11,7 +11,7 @@ class Button extends StatelessWidget {
       onPressed: () => function(),
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadiusGeometry.circular(30),
+          borderRadius: BorderRadius.circular(12),
         ),
         minimumSize: Size(double.infinity, 50),
         backgroundColor: Colors.red,

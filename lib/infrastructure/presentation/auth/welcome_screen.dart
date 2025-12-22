@@ -35,7 +35,7 @@ class WelcomeScreen extends StatelessWidget {
         
             const SizedBox(height: 20),
         
-            Button(message: "Get Started", function: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignUpScreen()))),
+            ButtonComponent(message: "Get Started", function: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignUpScreen()))),
         
             TextButton(
               onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen())), 
