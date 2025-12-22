@@ -1,5 +1,4 @@
 import 'package:daily_track/domain/entities/task.dart';
-import 'package:daily_track/domain/entities/user.dart';
 import 'package:daily_track/domain/repositories/task_repository.dart';
 import 'package:daily_track/infrastructure/database/database.dart';
 
@@ -22,8 +21,7 @@ class TaskRepositoryImpl implements TaskRepository {
         whereArgs: [uuid],
       );
 
-      return [];
-      //return tasks.map((task) => Task.fromJson(task));
+      return tasks.map((task) => Task.fromJson(task)).toList();
     } catch(e) {
       throw Exception("Internal Error");
     }
