@@ -23,65 +23,49 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFFE8F1F5), Color(0xFFD4E7F0)],
-          ),
-        ),
-        child: Center(
-          child: Container(
-            padding: const EdgeInsets.all(30),
-            margin: const EdgeInsets.symmetric(horizontal: 30),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
-                  spreadRadius: 5,
-                  blurRadius: 15,
-                  offset: const Offset(0, 5),
-                ),
-              ],
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TitleComponent(title: "Sign Up Now"),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 50),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Title
+            TitleComponent(title: "Sign Up Now"),
         
-                const SizedBox(height: 5),
+            const SizedBox(height: 5),
         
-                SubtitleComponent(subtitle: "Please fill all the information."),
+            // Subtitle
+            SubtitleComponent(subtitle: "Please fill all the information."),
         
-                const SizedBox(height: 25),
+            const SizedBox(height: 25),
         
-                TextFieldComponent(label: "Name"),
+            // Name Text Field
+            TextFieldComponent(label: "Name"),
         
-                const SizedBox(height: 10),
+            const SizedBox(height: 10),
         
-                TextFieldComponent(label: "Email"),
+            // Email Text Field
+            TextFieldComponent(label: "Email"),
         
-                const SizedBox(height: 10),
+            const SizedBox(height: 10),
         
-                TextFieldComponent(label: "Password"),
+            // Password Text Field
+            TextFieldComponent(label: "Password"),
         
-                const SizedBox(height: 10),
+            const SizedBox(height: 10),
         
-                ButtonComponent(message: "Sign Up", function: () => _signUp()),
-
-                const SizedBox(height: 20),
-
-                DividerComponent(),
-
-                const SizedBox(height: 10),
-
-                TextButtonComponent(message: "Log In", function: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()))),
-              ],
-            ),
-          ),
+            // Sign Up Button
+            ButtonComponent(message: "Sign Up", function: () => _signUp()),
+        
+            const SizedBox(height: 20),
+        
+            // Divider
+            DividerComponent(),
+        
+            const SizedBox(height: 10),
+            
+            // Navigate to Login Button
+            TextButtonComponent(message: "Log In", function: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()))),
+          ],
         ),
       ),
     );
