@@ -1,3 +1,4 @@
+import 'package:daily_track/infrastructure/presentation/auth/settings_screen.dart';
 import 'package:daily_track/infrastructure/presentation/bottom_navigator/bottom_navigator_state.dart';
 import 'package:daily_track/infrastructure/presentation/tasks/tasks_screen.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ class BottomNavigatorScreen extends StatelessWidget {
 
   final List<Widget> pages = [
     TasksScreen(),
+    SettingsScreen(),
   ];
 
   @override
@@ -43,6 +45,11 @@ class BottomNavigatorScreen extends StatelessWidget {
             unselectedFontSize: 11,
             onTap: (newIndex) => context.read<BottomNavigatorProvider>().index = newIndex,
             items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home_outlined, size: 26),
+                activeIcon: Icon(Icons.home, size: 26),
+                label: "Tasks",
+              ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.home_outlined, size: 26),
                 activeIcon: Icon(Icons.home, size: 26),

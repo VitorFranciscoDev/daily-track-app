@@ -1,4 +1,4 @@
-import 'package:daily_track/infrastructure/presentation/auth/welcome_screen.dart';
+import 'package:daily_track/infrastructure/presentation/bottom_navigator/bottom_navigator.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {
@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const WelcomeScreen(),
+      home: BottomNavigatorScreen(),
     );
   }
 }
