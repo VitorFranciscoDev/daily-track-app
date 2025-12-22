@@ -1,5 +1,9 @@
 import 'package:daily_track/infrastructure/presentation/auth/components/button.dart';
+import 'package:daily_track/infrastructure/presentation/auth/components/divider.dart';
+import 'package:daily_track/infrastructure/presentation/auth/components/subtitle.dart';
+import 'package:daily_track/infrastructure/presentation/auth/components/text_button.dart';
 import 'package:daily_track/infrastructure/presentation/auth/components/text_field.dart';
+import 'package:daily_track/infrastructure/presentation/auth/components/title.dart';
 import 'package:daily_track/infrastructure/presentation/auth/login_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -46,36 +50,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  "Sign Up Now",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red,
-                    fontSize: 22,
-                  ),
-                ),
+                TitleComponent(title: "Sign Up Now"),
         
                 const SizedBox(height: 5),
         
-                const Text(
-                  "Please fill all the information.",
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 14,
-                  ),
-                ),
+                SubtitleComponent(subtitle: "Please fill all the information."),
         
                 const SizedBox(height: 25),
         
-                TextFieldComponent(),
+                TextFieldComponent(label: "Name"),
         
                 const SizedBox(height: 10),
         
-                TextFieldComponent(),
+                TextFieldComponent(label: "Email"),
         
                 const SizedBox(height: 10),
         
-                TextFieldComponent(),
+                TextFieldComponent(label: "Password"),
         
                 const SizedBox(height: 10),
         
@@ -83,22 +74,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                 const SizedBox(height: 20),
 
-                Row(
-                  children: [
-                    Expanded(child: Divider(color: Colors.grey[300])),
-                    const SizedBox(width: 15),
-                    const Text("or", style: TextStyle(color: Colors.grey)),
-                    const SizedBox(width: 15),
-                    Expanded(child: Divider(color: Colors.grey[300])),
-                  ],
-                ),
+                DividerComponent(),
 
                 const SizedBox(height: 10),
 
-                TextButton(
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen())), 
-                  child: const Text("Log In"),
-                ),
+                TextButtonComponent(message: "Log In", function: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()))),
               ],
             ),
           ),

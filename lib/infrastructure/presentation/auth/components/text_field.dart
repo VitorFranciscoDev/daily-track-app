@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class TextFieldComponent extends StatefulWidget {
-  const TextFieldComponent({super.key});
+  const TextFieldComponent({ super.key, required this.label });
+  final String label;
 
   @override
   State<TextFieldComponent> createState() => _TextFieldComponentState();
@@ -12,23 +13,15 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
   Widget build(BuildContext context) {
     return TextField(
       decoration: InputDecoration(
-        labelText: 'Email',
-        labelStyle: TextStyle(color: Colors.grey.shade600),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade300),
-        ),
+        labelText: widget.label,
+        labelStyle: TextStyle(color: Colors.grey[600]),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade300),
+          borderSide: BorderSide(color: Colors.grey[300]!),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.red.shade700),
-        ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 16,
+          borderSide: BorderSide(color: Colors.red),
         ),
       ),
     );
