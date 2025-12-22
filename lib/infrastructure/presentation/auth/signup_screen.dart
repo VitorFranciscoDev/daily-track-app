@@ -15,6 +15,51 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  // Controllers
+  final _controllerName = TextEditingController();
+  final _controllerEmail = TextEditingController();
+  final _controllerPassword = TextEditingController();
+
+  // Errors
+  String? _errorName;
+  String? _errorEmail;
+  String? _errorPassword;
+
+  // Name Validation
+  void _validateName() => _controllerName.text.isEmpty 
+    ? setState(() {
+      _errorName = "Name cannot be blank";
+    }) : _errorName = null;
+
+  // Email Validation
+  void _validateEmail() {
+    setState(() {
+      if(_controllerEmail.text.isEmpty) {
+        _errorEmail = "Email cannot be blank";
+      }
+
+      if(RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(_controllerEmail.text)) {
+        _errorEmail = "Email format invalid";
+      }
+
+      _errorEmail = null;
+    });
+  }
+
+  // Password Validation
+  void _validatePassword() {
+    setState(() {
+      if(_controllerPassword.text.isEmpty) {
+        _errorPassword = "Password cannot be blank";
+      }
+
+      if(_controllerPassword.text.length < 8) {
+        _errorPassword = "Password needs to have, at least, 8 characters";
+      }
+
+      _errorPassword = null;
+    });
+  }
 
   Future<void> _signUp() async {
 
@@ -39,17 +84,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
             const SizedBox(height: 25),
         
             // Name Text Field
-            TextFieldComponent(label: "Name"),
+            TextFieldComponent(controller: _controllerName, label: "Name", error: _errorName, function: () => _validateName()),
         
             const SizedBox(height: 10),
         
             // Email Text Field
-            TextFieldComponent(label: "Email"),
+            TextFieldComponent(controller: _controllerEmail, label: "Email", error: _errorEmail, function: () => _validateEmail()),
         
             const SizedBox(height: 10),
         
             // Password Text Field
-            TextFieldComponent(label: "Password"),
+            TextFieldComponent(controller: _controllerPassword, label: "Password", error: _errorPassword, function: () => _validatePassword()),
         
             const SizedBox(height: 10),
         
