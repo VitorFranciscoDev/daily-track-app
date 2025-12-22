@@ -22,18 +22,20 @@ class _LoginScreenState extends State<LoginScreen> {
   final _controllerPassword = TextEditingController();
 
   // Errors
-  String? _errorEmail = "";
-  String? _errorPassword = "";
+  String? _errorEmail;
+  String? _errorPassword;
 
   // Email Validation
   void _validateEmail() {
     setState(() {
       if(_controllerEmail.text.isEmpty) {
         _errorEmail = "Email cannot be blank";
+        return;
       }
 
-      if(RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(_controllerEmail.text)) {
+      if(!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(_controllerEmail.text)) {
         _errorEmail = "Email format invalid";
+        return;
       }
 
       _errorEmail = null;
@@ -45,10 +47,12 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       if(_controllerPassword.text.isEmpty) {
         _errorPassword = "Password cannot be blank";
+        return;
       }
 
       if(_controllerPassword.text.length < 8) {
         _errorPassword = "Password needs to have, at least, 8 characters";
+        return;
       }
 
       _errorPassword = null;
@@ -57,13 +61,42 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // Log In
   Future<void> _login() async {
-    final _provider = context.read<AuthProvider>();
+    _validateEmail();
+    _validatePassword();
+    
+    if(_errorEmail != null || _errorPassword != null) return;
 
-    if(_errorEmail == null && _errorPassword == null) {
-      try {
-        await _provider.login(_controllerEmail.text, _controllerPassword.text);
-      } catch(e) {
-        print("a");
+    final provider = context.read<AuthProvider>();
+
+    showModalBottomSheet(
+      context: context,
+      isDismissible: false,
+      enableDrag: false,
+      builder: (context) => const Padding(
+        padding: EdgeInsets.all(32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 16),
+            Text("Loading..."),
+          ],
+        ),
+      ),
+    );
+
+    try {
+      await provider.login(_controllerEmail.text, _controllerPassword.text);
+      if (mounted) Navigator.pop(context);
+    } catch(e) {
+      if (mounted) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Login error: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
     }
   }
