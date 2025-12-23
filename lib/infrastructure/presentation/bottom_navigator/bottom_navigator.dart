@@ -14,11 +14,10 @@ class BottomNavigatorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final index = context.watch<BottomNavigatorProvider>().index;
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: Colors.white,
       body: pages[index],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
@@ -46,14 +45,14 @@ class BottomNavigatorScreen extends StatelessWidget {
             onTap: (newIndex) => context.read<BottomNavigatorProvider>().index = newIndex,
             items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined, size: 26),
-                activeIcon: Icon(Icons.home, size: 26),
+                icon: Icon(Icons.add_task, size: 26),
+                activeIcon: Icon(Icons.add_task, size: 26),
                 label: "Tasks",
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined, size: 26),
-                activeIcon: Icon(Icons.home, size: 26),
-                label: "Tasks",
+                icon: Icon(Icons.settings, size: 26),
+                activeIcon: Icon(Icons.settings, size: 26),
+                label: "Settings",
               ),
             ],
           ),
