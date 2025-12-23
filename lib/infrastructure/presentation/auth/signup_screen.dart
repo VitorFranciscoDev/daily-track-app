@@ -1,3 +1,5 @@
+import 'package:daily_track/domain/entities/user.dart';
+import 'package:daily_track/infrastructure/presentation/auth/auth_state.dart';
 import 'package:daily_track/infrastructure/presentation/auth/components/button.dart';
 import 'package:daily_track/infrastructure/presentation/auth/components/divider.dart';
 import 'package:daily_track/infrastructure/presentation/auth/components/subtitle.dart';
@@ -6,6 +8,8 @@ import 'package:daily_track/infrastructure/presentation/auth/components/text_fie
 import 'package:daily_track/infrastructure/presentation/auth/components/title.dart';
 import 'package:daily_track/infrastructure/presentation/auth/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -20,53 +24,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _controllerEmail = TextEditingController();
   final _controllerPassword = TextEditingController();
 
-  // Errors
-  String? _errorName;
-  String? _errorEmail;
-  String? _errorPassword;
-
-  // Name Validation
-  void _validateName() => _controllerName.text.isEmpty 
-    ? setState(() {
-      _errorName = "Name cannot be blank";
-    }) : _errorName = null;
-
-  // Email Validation
-  void _validateEmail() {
+  // Navigate to Login
+  void _navigateToLogin(bool replacement) {
+    replacement 
+      ? Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()))
+      : Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+    replacement ? null : context.read<AuthProvider>().clearErrors();
     setState(() {
-      if(_controllerEmail.text.isEmpty) {
-        _errorEmail = "Email cannot be blank";
-      }
-
-      if(RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(_controllerEmail.text)) {
-        _errorEmail = "Email format invalid";
-      }
-
-      _errorEmail = null;
-    });
-  }
-
-  // Password Validation
-  void _validatePassword() {
-    setState(() {
-      if(_controllerPassword.text.isEmpty) {
-        _errorPassword = "Password cannot be blank";
-      }
-
-      if(_controllerPassword.text.length < 8) {
-        _errorPassword = "Password needs to have, at least, 8 characters";
-      }
-
-      _errorPassword = null;
+      _controllerName.clear();
+      _controllerEmail.clear();
+      _controllerPassword.clear();
     });
   }
 
   Future<void> _signUp() async {
+    final provider = context.read<AuthProvider>();
 
+    final isValid = provider.validateSignUpFields(_controllerName.text, _controllerEmail.text, _controllerPassword.text);
+
+    if(!isValid) return;
+
+    final uuid = Uuid().v4();
+
+    final user = User(uuid: uuid, name: _controllerName.text, email: _controllerEmail.text, password: _controllerPassword.text);
+
+    await provider.addUser(user);
+    _navigateToLogin(true);
   }
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<AuthProvider>();
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -84,17 +73,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
             const SizedBox(height: 25),
         
             // Name Text Field
-            TextFieldComponent(controller: _controllerName, label: "Name", error: _errorName, function: () => _validateName()),
+            TextFieldComponent(controller: _controllerName, label: "Name", error: provider.errorName),
         
             const SizedBox(height: 10),
         
             // Email Text Field
-            TextFieldComponent(controller: _controllerEmail, label: "Email", error: _errorEmail, function: () => _validateEmail()),
+            TextFieldComponent(controller: _controllerEmail, label: "Email", error: provider.errorEmail),
         
             const SizedBox(height: 10),
         
             // Password Text Field
-            TextFieldComponent(controller: _controllerPassword, label: "Password", error: _errorPassword, function: () => _validatePassword()),
+            TextFieldComponent(controller: _controllerPassword, label: "Password", error: provider.errorPassword),
         
             const SizedBox(height: 10),
         
@@ -109,7 +98,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             const SizedBox(height: 10),
             
             // Navigate to Login Button
-            TextButtonComponent(message: "Log In", function: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()))),
+            TextButtonComponent(message: "Log In", function: () => _navigateToLogin(false)),
           ],
         ),
       ),

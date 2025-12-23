@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
 class TextFieldComponent extends StatefulWidget {
-  const TextFieldComponent({ super.key, required this.controller, required this.label, required this.error, required this.function });
+  const TextFieldComponent({ super.key, required this.controller, required this.label, required this.error });
   final TextEditingController controller;
   final String label;
   final String? error;
-  final VoidCallback function;
 
   @override
   State<TextFieldComponent> createState() => _TextFieldComponentState();
@@ -16,7 +15,6 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
   Widget build(BuildContext context) {
     return TextField(
       controller: widget.controller,
-      onChanged: (value) => widget.function(),
       decoration: InputDecoration(
         labelText: widget.label,
         labelStyle: TextStyle(color: Colors.grey[600]),
