@@ -31,7 +31,7 @@ class AuthProvider with ChangeNotifier {
     
     if(email.isEmpty) {
       _errorEmail = "Email cannot be blank";
-    } else if(RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
+    } else if(!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
       _errorEmail = "Email format invalid";
     } else {
       _errorEmail = null;
@@ -53,7 +53,7 @@ class AuthProvider with ChangeNotifier {
   bool validateLoginFields(String email, String password) {
     if(email.isEmpty) {
       _errorEmail = "Email cannot be blank";
-    } else if(RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
+    } else if(!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
       _errorEmail = "Email format invalid";
     } else {
       _errorEmail = null;
